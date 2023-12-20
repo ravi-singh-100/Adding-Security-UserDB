@@ -8,30 +8,29 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Entity
 @Data
+
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class MyUser implements UserDetails {
-    private static final String limiter=",";
+    private static final String delimiter=",";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(nullable = false,unique = true)
     private String userName;
     private String password;
     private String authorities;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities(){
-        String[]arr=authorities.split(limiter);
+        String[]arr=authorities.split(delimiter);
         return Arrays.stream(arr).map(e -> new SimpleGrantedAuthority(e) ).collect(Collectors.toList());
     }
     @Override

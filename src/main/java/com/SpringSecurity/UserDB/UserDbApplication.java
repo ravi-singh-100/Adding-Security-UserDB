@@ -8,6 +8,7 @@ public class UserDbApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(UserDbApplication.class, args);
+		System.out.println("Server has been started");
 	}
 
 }
